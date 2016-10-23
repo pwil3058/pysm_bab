@@ -21,7 +21,7 @@ import subprocess
 import shlex
 import select
 
-from ..lib import CmdResult, CmdFailure
+from ..bab import CmdResult, CmdFailure
 
 # TODO: reimplement runext to usilise improved Python 3 subprocess module
 
@@ -68,7 +68,7 @@ else:
         return CmdResult(ecode=sub.returncode, stdout=outd.decode() if decode_stdout else outd, stderr=errd.decode()).mapped_for_warning(sanitize_stderr=sanitize_stderr)
 
     def run_cmd_in_console(console, cmd, input_text=None, sanitize_stderr=None):
-        from ..lib.utils import quote_if_needed
+        from ..bab.utils import quote_if_needed
         if isinstance(cmd, str):
             cmd = shlex.split(cmd)
         if IS_POSIX:
