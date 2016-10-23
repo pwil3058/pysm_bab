@@ -17,7 +17,7 @@
 them to update their displayed/cached data.
 """
 
-from ..lib import utils
+from ..bab import utils
 
 _flag_generator = utils.create_flag_generator()
 
