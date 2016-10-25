@@ -130,35 +130,18 @@ def run_do_cmd(console, cmd, input_text=None, sanitize_stderr=None, suggestions=
     return result.mapped_for_suggestions(suggestions if suggestions else [])
 
 def run_cmd_in_bgnd(cmd):
-    """Run the given command in the background and poll for its exit using
-    _wait_for_bgnd_timeout() as a callback.
+    """Run the given command in the background.
     """
-    import threading
-    def _wait_for_bgnd_cmd_timeout(pid):
-        """Callback to clean up after background tasks complete"""
-        try:
-            if os.name == "nt" or os.name == "dos":
-                rpid, _dummy= os.waitpid(pid, 0)
-            else:
-                rpid, _dummy= os.waitpid(pid, os.WNOHANG)
-            if rpid != pid:
-                threading.Timer(2, _wait_for_bgnd_cmd_timeout, [pid]).start()
-                return True
-            else:
-                return False
-        except OSError:
-            return False
     if isinstance(cmd, str):
         cmd = shlex.split(cmd)
     if not cmd:
         return False
     if IS_MSFT:
-        pid = subprocess.Popen(cmd, startupinfo=startupinfo).pid
+        pid = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, startupinfo=startupinfo).pid
     else:
-        pid = subprocess.Popen(cmd).pid
+        pid = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).pid
     if not pid:
         return False
-    _wait_for_bgnd_cmd_timeout(pid)
     return pid
 
 # Some generalized lambdas to assisting in constructing commands
