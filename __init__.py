@@ -26,11 +26,15 @@ import gettext
 from . import i18n
 
 HOME = os.path.expanduser("~")
-PKG_NAME = "aipoed"
 VERSION = "0.1.0"
 LOCALE_DIR = i18n.find_locale_dir()
 
-gettext.install(PKG_NAME, LOCALE_DIR)
+try:
+    from .. import APP_NAME
+except ImportError:
+    from ... import APP_NAME
+
+gettext.install(APP_NAME, LOCALE_DIR)
 
 class Result:
     OK = 0
