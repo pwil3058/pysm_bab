@@ -15,8 +15,8 @@
 ### along with this program; if not, write to the Free Software
 ### Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
-class PickeExtensibleObject(object):
-    '''A base class for pickleable objects that can cope with modifications'''
+class ExtensiblePickleMixin:
+    '''A mixin for pickleable objects that can cope with modifications'''
     RENAMES = dict()
     NEW_FIELDS = dict()
     def __setstate__(self, state):
@@ -29,4 +29,5 @@ class PickeExtensibleObject(object):
     def __getattr__(self, attr):
         if attr in self.NEW_FIELDS:
             return self.NEW_FIELDS[attr]
-        raise AttributeError
+        raise AttributeError(attr)
+
