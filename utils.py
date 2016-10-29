@@ -94,6 +94,7 @@ def iter_chunks(iterable, chunk_size):
     leaving client to worry about an incomplete chunk at the end if
     that occasion arises
     """
+    import itertools
     it = iter(iterable)
     while True:
        chunk = tuple(itertools.islice(it, chunk_size))
