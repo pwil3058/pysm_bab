@@ -88,3 +88,15 @@ def make_utf8_compliant(text):
         except UnicodeError:
             continue
     raise UnicodeError
+
+def iter_chunks(iterable, chunk_size):
+    """iterate over "iterable" in chunks of size "chunk_size" at a time
+    leaving client to worry about an incomplete chunk at the end if
+    that occasion arises
+    """
+    it = iter(iterable)
+    while True:
+       chunk = tuple(itertools.islice(it, chunk_size))
+       if not chunk:
+           return
+       yield chunk
