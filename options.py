@@ -22,7 +22,12 @@ import configparser
 
 from . import CmdResult
 
-_GLOBAL_CFG_FILE_PATH = ""
+try:
+    from .. import CONFIG_DIR_PATH, PGND_CONFIG_DIR_PATH
+except ImportError:
+    from ... import CONFIG_DIR_PATH, PGND_CONFIG_DIR_PATH
+
+_GLOBAL_CFG_FILE_PATH = os.path.join(CONFIG_DIR_PATH, "options.cfg") if CONFIG_DIR_PATH else ""
 GLOBAL_OPTIONS = configparser.SafeConfigParser()
 
 def load_global_options():
@@ -44,7 +49,7 @@ def reload_global_options():
     GLOBAL_OPTIONS = new_version
     return CmdResult.ok()
 
-_PGND_CFG_FILE_PATH = ""
+_PGND_CFG_FILE_PATH = os.path.join(PGND_CONFIG_DIR_PATH, "options.cfg") if PGND_CONFIG_DIR_PATH else ""
 PGND_OPTIONS = configparser.SafeConfigParser()
 
 def load_pgnd_options():
@@ -66,15 +71,8 @@ def reload_pgnd_options():
     PGND_OPTIONS = new_version
     return CmdResult.ok()
 
-def initialize(global_config_dir_path, pgnd_config_dir_path=None):
-    global _GLOBAL_CFG_FILE_PATH
-    global _PGND_CFG_FILE_PATH
-    _GLOBAL_CFG_FILE_PATH = os.path.join(global_config_dir_path, "options.cfg") if global_config_dir_path else ""
-    _PGND_CFG_FILE_PATH = os.path.join(pgnd_config_dir_path, "options.cfg") if pgnd_config_dir_path else ""
-    load_global_options()
-    load_pgnd_options()
-    define("user", "name", Defn(str, None, _("User's display name e.g. Fred Bloggs")))
-    define("user", "email", Defn(str, None, _("User's email address e.g. fred@bloggs.com")))
+load_global_options()
+load_pgnd_options()
 
 class OptionError(Exception): pass
 class DuplicateDefn(OptionError): pass
@@ -137,3 +135,6 @@ def set_global(section, oname, value):
 
 def set_pgnd(section, oname, value):
     return _set_option(PGND_OPTIONS, _PGND_CFG_FILE_PATH, section, oname, value)
+
+define("user", "name", Defn(str, None, _("User's display name e.g. Fred Bloggs")))
+define("user", "email", Defn(str, None, _("User's email address e.g. fred@bloggs.com")))
