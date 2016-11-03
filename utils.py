@@ -13,14 +13,11 @@
 ### along with this program; if not, write to the Free Software
 ### Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
-def create_flag_generator():
+def create_flag_generator(max_flags=64):
     """
     Create a new flag generator
     """
-    next_flag_num = 0
-    while True:
-        yield 2 ** next_flag_num
-        next_flag_num += 1
+    return (2 ** n for n in range(max_flags))
 
 def path_rel_home(path):
     """Return the given path as a path relative to user's home directory."""
