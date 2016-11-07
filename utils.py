@@ -184,6 +184,7 @@ def ensure_file_dir_exists(filepath):
 
 def convert_patchname_to_filename(patchname):
     import re
+    from . import options
     repl = options.get("export", "replace_spc_in_name_with")
     if isinstance(repl, str):
         return re.sub("(\s+)", repl, patchname.strip())
