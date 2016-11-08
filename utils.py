@@ -95,24 +95,24 @@ def set_file_contents(filename, text, compress=True):
         if ext == ".gz":
             try:
                 gzip.open(filename, "wb").write(text)
-                return True
-            except (IOError, zlib.error):
-                return False
+                return CmdResult.ok()
+            except (IOError, zlib.error) as edata:
+                return CmdResult.error(stderr=str(edata))
         elif ext == ".bz2":
             try:
                 bz2f = bz2.BZ2File(filename, "w")
                 text = bz2f.write(text)
                 bz2f.close()
-                return True
+                return CmdResult.ok()
             except IOError:
-                return False
+                return CmdResult.error(stderr=str(edata))
         elif ext == ".xz":
             res, text, serr = run_cmd("xz -c", text)
         elif ext == ".lzma":
             res, text, serr = run_cmd("lzma -c", text)
         if res != 0:
             sys.stderr.write(serr)
-            return False
+            return CmdResult.error(stderr=serr)
     try:
         open(filename, "w").write(text)
     except IOError as edata:
