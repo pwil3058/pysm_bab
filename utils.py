@@ -182,15 +182,6 @@ def ensure_file_dir_exists(filepath):
     if not os.path.exists(file_dir):
         os.makedirs(file_dir)
 
-def convert_patchname_to_filename(patchname):
-    import re
-    from . import options
-    repl = options.get("export", "replace_spc_in_name_with")
-    if isinstance(repl, str):
-        return re.sub("(\s+)", repl, patchname.strip())
-    else:
-        return patchname
-
 def get_sha1_for_file(filepath):
     import hashlib
     import os
