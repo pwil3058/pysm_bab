@@ -31,3 +31,18 @@ def singleton(class_):
             self._sealed = True
     class_w.__name__ = class_.__name__
     return class_w
+
+def prop(func):
+    """ The builtin @property decorator lets internal AttributeErrors escape.
+       While that can support properties that appear to exist conditionally,
+       in practice this is almost never what I want, and it masks deeper errors.
+       Hence this wrapper for @property that transmutes internal AttributeErrors
+       into RuntimeErrors.
+    """
+    # FROM Cameron Simpson <cs@zip.com.au> post to "python-list"
+    def wrapper(*a, **kw):
+        try:
+            return func(*a, **kw)
+        except AttributeError as e:
+            raise RuntimeError("inner function %s raised %s" % (func, e))
+    return property(wrapper)
