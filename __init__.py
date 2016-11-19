@@ -124,7 +124,7 @@ class _OperationsMixin:
         return self.ecode & suggestion != 0
 
 # result of running and external command
-class CmdResult(collections.namedtuple('CmdResult', ['ecode', 'stdout', 'stderr']), Result, _OperationsMixin):
+class CmdResult(collections.namedtuple("CmdResult", ["ecode", "stdout", "stderr"]), Result, _OperationsMixin):
     def __str__(self):
         return "CmdResult(ecode={0:b}, stdout={1}, stderr={2})".format(self.ecode, self.stdout, self.stderr)
     def __or__(self, suggestions):
@@ -164,7 +164,7 @@ class CmdResult(collections.namedtuple('CmdResult', ['ecode', 'stdout', 'stderr'
             return self.stderr
 
 # result returned from an internal "action" function/method
-class ActionResult(collections.namedtuple('ActionResult', ['ecode', 'message']), Result, _OperationsMixin):
+class ActionResult(collections.namedtuple("ActionResult", ["ecode", "message"]), Result, _OperationsMixin):
     def __str__(self):
         return "ActionResult(ecode={0:b}, message={1})".format(self.ecode, self.message)
     def __or__(self, suggestions):

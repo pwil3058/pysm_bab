@@ -25,10 +25,10 @@ E_FILE_ADDED, E_FILE_DELETED, E_FILE_CHANGES = enotify.new_event_flags_and_mask(
 E_FILE_MOVED = E_FILE_ADDED | E_FILE_DELETED
 
 class Relation:
-    COPIED_FROM = '<<-'
-    COPIED_TO = '->>'
-    MOVED_FROM = '<-'
-    MOVED_TO = '->'
+    COPIED_FROM = "<<-"
+    COPIED_TO = "->>"
+    MOVED_FROM = "<-"
+    MOVED_TO = "->"
 
 class _DummyLog:
     def start_cmd(self, *args, **kwargs): pass
@@ -77,7 +77,7 @@ def os_create_file(file_path):
     _CONSOLE_LOG.start_cmd("create \"{0}\"".format(file_path))
     if not os.path.exists(file_path):
         try:
-            open(file_path, 'w').close()
+            open(file_path, "w").close()
             enotify.notify_events(E_FILE_ADDED)
             result = CmdResult.ok()
         except (IOError, OSError) as msg:
@@ -89,7 +89,7 @@ def os_create_file(file_path):
 
 def os_delete_fs_items(fsi_paths, events=E_FILE_DELETED, force=False):
     from . import utils
-    _CONSOLE_LOG.start_cmd(_('delete {0}').format(utils.quoted_join(fsi_paths)))
+    _CONSOLE_LOG.start_cmd(_("delete {0}").format(utils.quoted_join(fsi_paths)))
     serr = ""
     errorcode = CmdResult.ERROR
     for fsi_path in fsi_paths:
@@ -101,7 +101,7 @@ def os_delete_fs_items(fsi_paths, events=E_FILE_DELETED, force=False):
                     os.removedirs(fsi_path)
             else:
                 os.remove(fsi_path)
-            _CONSOLE_LOG.append_stdout(_('Deleted: {0}\n').format(fsi_path))
+            _CONSOLE_LOG.append_stdout(_("Deleted: {0}\n").format(fsi_path))
         except OSError as edata:
             if edata.errno == errno.ENOTEMPTY:
                 errorcode = CmdResult.ERROR | Suggestion.FORCE
@@ -173,7 +173,7 @@ def os_move_or_copy_fs_items(fsi_paths, destn, opsym, overwrite=False, force=Fal
             return _("File \"{0}\" already exists.").format(overwrites[0])
     _CONSOLE_LOG.start_cmd("{0} {1} {2}\n".format(utils.quoted_join(fsi_paths), opsym, destn))
     if not os.path.isdir(destn):
-        result = CmdResult.error(stderr=_('"{0}": Destination must be a directory for multifile move/copy.').format(destn))
+        result = CmdResult.error(stderr=_("\"{0}\": Destination must be a directory for multifile move/copy.").format(destn))
         _CONSOLE_LOG.end_cmd(result)
         return result
     opn_paths_list = [(fsi_path, os.path.join(destn, os.path.basename(fsi_path))) for fsi_path in fsi_paths]

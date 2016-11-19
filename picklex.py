@@ -16,7 +16,7 @@
 ### Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 class ExtensiblePickleMixin:
-    '''A mixin for pickleable objects that can cope with modifications'''
+    """A mixin for pickleable objects that can cope with modifications"""
     RENAMES = dict()
     NEW_FIELDS = dict()
     def __setstate__(self, state):

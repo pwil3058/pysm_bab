@@ -13,7 +13,7 @@
 ### along with this program; if not, write to the Free Software
 ### Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
-'''Manage configurable options'''
+"""Manage configurable options"""
 
 # TODO: add mechanism for setting both global and local options
 import os
