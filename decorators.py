@@ -46,3 +46,15 @@ def prop(func):
         except AttributeError as e:
             raise RuntimeError("inner function %s raised %s" % (func, e))
     return property(wrapper)
+
+class classproperty:
+    """Turn class methods into read only properties
+    """
+    def __init__(self, fget):
+        self.fget = fget
+
+    def __get__(self, _owner_self, owner_cls):
+        return self.fget(owner_cls)
+
+    def __set__(self, _owner_self, _value):
+        raise AttributeError("unsettable attribute")
