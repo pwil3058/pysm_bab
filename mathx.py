@@ -32,11 +32,11 @@ class Angle(float):
         assert value >= -math.pi and value <= math.pi
         return float.__new__(cls, value)
     def __repr__(self):
-        '''
+        """
         >>> Angle(2).__repr__()
-        'Angle(2.0)'
-        '''
-        return '{0}({1})'.format(self.__class__.__name__, float.__repr__(self))
+        "Angle(2.0)"
+        """
+        return "{0}({1})".format(self.__class__.__name__, float.__repr__(self))
     @classmethod
     def normalize(cls, angle):
         """

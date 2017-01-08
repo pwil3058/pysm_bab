@@ -24,7 +24,7 @@ __all__ = []
 __author__ = "Peter Williams <pwil3058@gmail.com>"
 
 # Allow possessives and hyphenated words
-DELIMITERS = string.whitespace + string.punctuation.replace("'", '').replace('-', '')
+DELIMITERS = string.whitespace + string.punctuation.replace("'", "").replace("-", "")
 
 def find_start_last_word(text, before=None):
     index = before if before is not None and before < len(text) else len(text)
@@ -39,7 +39,7 @@ def replace_last_word(text, new_word, before=None):
     Return a new string with the last word replaced by the new word.
     """
     index = find_start_last_word(text=text, before=before)
-    tail = text[before:] if before is not None else ''
+    tail = text[before:] if before is not None else ""
     return text[:index] + new_word + tail
 
 def extract_words(text):
