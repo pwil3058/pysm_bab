@@ -29,7 +29,7 @@ class Angle(float):
         AssertionError
         """
         #Make sure the value is between -pi and pi
-        assert value >= -math.pi and value <= math.pi
+        assert (value >= -math.pi and value <= math.pi) or math.isnan(value), "{}".format(value)
         return float.__new__(cls, value)
     def __repr__(self):
         """
