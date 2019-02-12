@@ -117,7 +117,14 @@ else:
         return result.mapped_for_warning(sanitize_stderr=sanitize_stderr)
 
 def run_get_cmd(cmd, input_text=None, sanitize_stderr=None, default=CmdFailure, do_rstrip=True, decode_stdout=True):
-    result = run_cmd(cmd, input_text=input_text, sanitize_stderr=sanitize_stderr, decode_stdout=decode_stdout)
+    try:
+        result = run_cmd(cmd, input_text=input_text, sanitize_stderr=sanitize_stderr, decode_stdout=decode_stdout)
+    except UnicodeDecodeError:
+        if default is CmdFailure:
+            emsg = "{0}: generated invalid unicode text\n".format(cmd)
+            raise CmdFailure(emsg)
+        else:
+            return default
     if not result.is_ok:
         if default is CmdFailure:
             raise CmdFailure(result.message)
